@@ -1,6 +1,7 @@
 package com.tecsup.backendusuarios.model;
 
 import jakarta.persistence.*;
+//hello
 
 @Entity
 @Table(name = "departamentos")
