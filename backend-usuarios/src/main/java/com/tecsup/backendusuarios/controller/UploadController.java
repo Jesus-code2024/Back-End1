@@ -38,8 +38,11 @@ public class UploadController {
             }
             Path filePath = uploadPath.resolve(filename);
             file.transferTo(filePath);
-            // Devuelve la ruta relativa para usarla en la entidad
-            return ResponseEntity.ok("/" + uploadDir + "/" + filename);
+
+            // --- CAMBIO CLAVE AQUÍ ---
+            // Antes: return ResponseEntity.ok("/" + uploadDir + "/" + filename);
+            // Ahora: Solo devolvemos el nombre del archivo.
+            return ResponseEntity.ok(filename); // <--- MODIFICADO
         } catch (IOException e) {
             return ResponseEntity.status(500).body("Error al subir la imagen: " + e.getMessage());
         }

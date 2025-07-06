@@ -14,4 +14,11 @@ public interface EventoRepository extends JpaRepository<Evento, Long> {
     List<Evento> findByAutor(User autor);
     List<Evento> findByCarrera(Carrera carrera);
     List<Evento> findByFechaInicioBetween(LocalDateTime inicio, LocalDateTime fin);
+
+    // **********************************************
+    // Nuevo método para encontrar eventos destacados
+    List<Evento> findByDestacadoTrue();
+    // Opcional: para ordenar por fecha de inicio, por si quieres los más recientes destacados
+    List<Evento> findByDestacadoTrueOrderByFechaInicioDesc();
+    // **********************************************
 }

@@ -1,12 +1,10 @@
 package com.tecsup.backendusuarios.model;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "webinars")
-
 public class Webinar {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,7 +16,7 @@ public class Webinar {
     @Column(columnDefinition = "TEXT")
     private String descripcion;
 
-    private LocalDateTime fecha;
+    private LocalDateTime fecha; // Ya tienes 'fecha'
 
     @Column(nullable = false)
     private String enlace;
@@ -26,22 +24,32 @@ public class Webinar {
     @Column(length = 100)
     private String expositor;
 
-    private String imagen;    @ManyToOne
+    private String imagen;
+
+    // **********************************************
+    // ¡NUEVO CAMPO!
+    @Column(nullable = false)
+    private boolean destacado;
+    // **********************************************
+
+    @ManyToOne
     @JoinColumn(name = "autor_id", nullable = false)
     private User autor;
 
     public Webinar() {}
 
-    public Webinar(Long id, String titulo, String descripcion, LocalDateTime fecha, String enlace, String expositor, String imagen, User autor) {
-        this.id = id;
-        this.titulo = titulo;
-        this.descripcion = descripcion;
-        this.fecha = fecha;
-        this.enlace = enlace;
-        this.expositor = expositor;
-        this.imagen = imagen;
-        this.autor = autor;
-    }
+    // Tu constructor existente. Asegúrate de actualizarlo si lo usas con `destacado`.
+    // Si no lo usas, puedes dejarlo como está o actualizarlo para incluir `destacado`.
+    // public Webinar(Long id, String titulo, String descripcion, LocalDateTime fecha, String enlace, String expositor, String imagen, User autor) {
+    //     this.id = id;
+    //     this.titulo = titulo;
+    //     this.descripcion = descripcion;
+    //     this.fecha = fecha;
+    //     this.enlace = enlace;
+    //     this.expositor = expositor;
+    //     this.imagen = imagen;
+    //     this.autor = autor;
+    // }
 
     // Getters y Setters
     public Long getId() {
@@ -99,6 +107,17 @@ public class Webinar {
     public void setImagen(String imagen) {
         this.imagen = imagen;
     }
+
+    // **********************************************
+    // Getter y Setter para el nuevo campo 'destacado'
+    public boolean isDestacado() {
+        return destacado;
+    }
+
+    public void setDestacado(boolean destacado) {
+        this.destacado = destacado;
+    }
+    // **********************************************
 
     public User getAutor() {
         return autor;

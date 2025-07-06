@@ -10,6 +10,7 @@ import com.tecsup.backendusuarios.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod; // Importa HttpMethod
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -82,45 +83,50 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .csrf(csrf -> csrf.disable())
-            .formLogin(form -> form.disable())
-            .httpBasic(basic -> basic.disable())
-            .exceptionHandling(ex -> ex.authenticationEntryPoint(unauthorizedHandler))
-            .authorizeHttpRequests(authz -> authz                .requestMatchers(
-                    "/",
-                    "/error",
-                    "/favicon.ico",
-                    "/*.html",
-                    "/*.js",
-                    "/*.css",
-                    "/static/**",
-                    "/public/**",
-                    "/api/auth/**",
-                    "/oauth2/**",
-                    "/actuator/health",
-                            "/uploads/**",
-                    "/api/auth/oauth2/authorize/google"
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .csrf(csrf -> csrf.disable())
+                .formLogin(form -> form.disable())
+                .httpBasic(basic -> basic.disable())
+                .exceptionHandling(ex -> ex.authenticationEntryPoint(unauthorizedHandler))
+                .authorizeHttpRequests(authz -> authz
+                        // Rutas que no requieren autenticación
+                        .requestMatchers(
+                                "/",
+                                "/error",
+                                "/favicon.ico",
+                                "/*.html",
+                                "/*.js",
+                                "/*.css",
+                                "/static/**",
+                                "/public/**",
+                                "/api/auth/**",
+                                "/oauth2/**",
+                                "/actuator/health",
+                                "/uploads/**",
+                                "/api/destacados",
+                                "/api/auth/oauth2/authorize/google"
+                        ).permitAll()
+                        // **AÑADE ESTAS LÍNEAS PARA PERMITIR SOLO SOLICITUDES GET A DETALLES DE EVENTOS Y WEBINARS**
+                        .requestMatchers(HttpMethod.GET, "/api/eventos/**").permitAll() // Permite solicitudes GET a /api/eventos/cualquierId
+                        .requestMatchers(HttpMethod.GET, "/api/webinars/**").permitAll() // Permite solicitudes GET a /api/webinars/cualquierId
+                        // Cualquier otra solicitud requiere autenticación
+                        .anyRequest().authenticated()
                 )
-                .permitAll()
-                .anyRequest()
-                .authenticated()
-            )
-            .oauth2Login(oauth2 -> oauth2
-                .authorizationEndpoint(authorization -> authorization
-                    .baseUri("/oauth2/authorize")
-                    .authorizationRequestRepository(cookieAuthorizationRequestRepository())
-                )
-                .redirectionEndpoint(redirection -> redirection
-                    .baseUri("/oauth2/callback/*")
-                )
-                .userInfoEndpoint(userInfo -> userInfo
-                    .userService(customOAuth2UserService)
-                )
-                .successHandler(oAuth2AuthenticationSuccessHandler)
-                .failureHandler(oAuth2AuthenticationFailureHandler)
-            );
+                .oauth2Login(oauth2 -> oauth2
+                        .authorizationEndpoint(authorization -> authorization
+                                .baseUri("/oauth2/authorize")
+                                .authorizationRequestRepository(cookieAuthorizationRequestRepository())
+                        )
+                        .redirectionEndpoint(redirection -> redirection
+                                .baseUri("/oauth2/callback/*")
+                        )
+                        .userInfoEndpoint(userInfo -> userInfo
+                                .userService(customOAuth2UserService)
+                        )
+                        .successHandler(oAuth2AuthenticationSuccessHandler)
+                        .failureHandler(oAuth2AuthenticationFailureHandler)
+                );
 
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
@@ -134,7 +140,7 @@ public class SecurityConfig {
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
-        
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;

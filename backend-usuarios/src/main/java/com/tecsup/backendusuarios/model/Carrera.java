@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "carreras")
-
 public class Carrera {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,16 +13,23 @@ public class Carrera {
     private String codigo;
 
     @Column(length = 100)
-    private String nombre;    @Column(columnDefinition = "TEXT")
+    private String nombre;
+
+    @Column(columnDefinition = "TEXT")
     private String descripcion;
+
+    // AÑADE ESTA LÍNEA PARA EL CAMPO IMAGEN
+    private String imagen;
 
     public Carrera() {}
 
-    public Carrera(Long id, String codigo, String nombre, String descripcion) {
+    // MODIFICA EL CONSTRUCTOR EXISTENTE PARA INCLUIR 'imagen'
+    public Carrera(Long id, String codigo, String nombre, String descripcion, String imagen) {
         this.id = id;
         this.codigo = codigo;
         this.nombre = nombre;
         this.descripcion = descripcion;
+        this.imagen = imagen; // <--- AÑADIDO
     }
 
     // Getters y Setters
@@ -57,5 +63,26 @@ public class Carrera {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    // AÑADE ESTOS GETTER Y SETTER PARA EL CAMPO IMAGEN
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
+
+    // Opcional: Si tienes un método toString(), también deberías incluir 'imagen' allí
+    @Override
+    public String toString() {
+        return "Carrera{" +
+                "id=" + id +
+                ", codigo='" + codigo + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", imagen='" + imagen + '\'' + // <-- Opcional, para logs/debug
+                '}';
     }
 }

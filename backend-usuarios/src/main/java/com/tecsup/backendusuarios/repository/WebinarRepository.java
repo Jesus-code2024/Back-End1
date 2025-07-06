@@ -13,4 +13,11 @@ public interface WebinarRepository extends JpaRepository<Webinar, Long> {
     List<Webinar> findByAutor(User autor);
     List<Webinar> findByFechaBetween(LocalDateTime inicio, LocalDateTime fin);
     List<Webinar> findByExpositor(String expositor);
+
+    // **********************************************
+    // Nuevo método para encontrar webinars destacados
+    List<Webinar> findByDestacadoTrue();
+    // Opcional: para ordenar por fecha, por si quieres los más recientes destacados
+    List<Webinar> findByDestacadoTrueOrderByFechaDesc();
+    // **********************************************
 }

@@ -22,7 +22,6 @@ import org.springframework.util.StringUtils;
 
 import java.util.Collections;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {

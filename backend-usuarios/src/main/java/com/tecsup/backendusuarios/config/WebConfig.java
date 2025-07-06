@@ -12,7 +12,9 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        String fullUploadPath = "file:" + System.getProperty("user.dir") + "/" + uploadDir + "/";
+        System.out.println("DEBUG: Configurando el handler de recursos para /uploads/** a: " + fullUploadPath); // <-- Asegúrate de que esta línea esté aquí
         registry.addResourceHandler("/uploads/**")
-                .addResourceLocations("file:" + System.getProperty("user.dir") + "/" + uploadDir + "/"); // <--- CORRECCIÓN AQUI
+                .addResourceLocations(fullUploadPath);
     }
 }

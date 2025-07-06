@@ -1,8 +1,6 @@
 package com.tecsup.backendusuarios.service;
 
-import com.tecsup.backendusuarios.dto.auth.LoginRequest;
 import com.tecsup.backendusuarios.dto.auth.SignUpRequest;
-import com.tecsup.backendusuarios.dto.auth.JwtAuthenticationResponse;
 import com.tecsup.backendusuarios.dto.common.ApiResponse;
 import com.tecsup.backendusuarios.exception.BadRequestException;
 import com.tecsup.backendusuarios.model.AuthProvider;
@@ -19,7 +17,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 

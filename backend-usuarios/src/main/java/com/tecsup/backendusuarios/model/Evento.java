@@ -1,13 +1,10 @@
 package com.tecsup.backendusuarios.model;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
-
 
 @Entity
 @Table(name = "eventos")
-
 public class Evento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +17,7 @@ public class Evento {
     private String descripcion;
 
     @Column(name = "fecha_inicio")
-    private LocalDateTime fechaInicio;
+    private LocalDateTime fechaInicio; // Ya tienes fechaInicio
 
     @Column(name = "fecha_fin")
     private LocalDateTime fechaFin;
@@ -31,17 +28,27 @@ public class Evento {
     @Column
     private Integer capacidad;
 
-
     @Column
     private String imagen;
 
+    // **********************************************
+    // ¡NUEVO CAMPO!
+    @Column(nullable = false) // Generalmente un booleano destacado es requerido o tiene un valor por defecto
+    private boolean destacado;
+    // **********************************************
+
     @ManyToOne
     @JoinColumn(name = "carrera_id")
-    private Carrera carrera;    @ManyToOne
+    private Carrera carrera;
+
+    @ManyToOne
     @JoinColumn(name = "autor_id", nullable = false)
     private User autor;
 
     public Evento() {}
+
+    // No necesitas un constructor con todos los campos a menos que lo uses
+    // El constructor por defecto y los setters son suficientes para JPA
 
     // Getters y Setters
     public Long getId() {
@@ -107,6 +114,17 @@ public class Evento {
     public void setImagen(String imagen) {
         this.imagen = imagen;
     }
+
+    // **********************************************
+    // Getter y Setter para el nuevo campo 'destacado'
+    public boolean isDestacado() { // Los getters de booleanos suelen ser isNombreCampo
+        return destacado;
+    }
+
+    public void setDestacado(boolean destacado) {
+        this.destacado = destacado;
+    }
+    // **********************************************
 
     public Carrera getCarrera() {
         return carrera;
