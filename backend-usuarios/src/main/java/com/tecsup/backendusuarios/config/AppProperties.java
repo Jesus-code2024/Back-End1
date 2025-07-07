@@ -50,6 +50,6 @@ public class AppProperties {
     }
 
     public OAuth2 getOauth2() {
-        return oauth2;
+        return oauth2;            
     }
 }
