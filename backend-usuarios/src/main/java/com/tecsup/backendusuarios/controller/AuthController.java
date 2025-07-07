@@ -29,4 +29,4 @@ public class AuthController {
         ApiResponse response = authService.registerUser(signUpRequest);
         return ResponseEntity.ok(response);
     }
-}
+}    
