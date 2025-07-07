@@ -162,4 +162,4 @@ public class AnuncioController {
                 .orElseThrow(() -> new RuntimeException("Departamento no encontrado"));
         return anuncioRepository.findByTipoAndDepartamento(TipoAnuncio.DEP, departamento);
     }
-}
+}    
