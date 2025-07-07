@@ -61,5 +61,5 @@ public class DataLoader implements CommandLineRunner {
             userRepository.save(admin);
             System.out.println("Usuario admin creado exitosamente");
         }
-    }
+    }    
 }
